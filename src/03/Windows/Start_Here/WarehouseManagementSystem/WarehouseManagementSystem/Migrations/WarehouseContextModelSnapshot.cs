@@ -102,17 +102,22 @@ namespace WarehouseManagementSystem.Migrations
                     b.Property<Guid>("ItemId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("OrderId")
+                    b.Property<Guid?>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("ShippingProviderId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("ShippingProviderId");
 
                     b.ToTable("LineItems");
                 });
@@ -199,13 +204,17 @@ namespace WarehouseManagementSystem.Migrations
 
                     b.HasOne("WarehouseManagementSystem.Order", "Order")
                         .WithMany("LineItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("WarehouseManagementSystem.ShippingProvider", "ShippingProvider")
+                        .WithMany("LineItems")
+                        .HasForeignKey("ShippingProviderId");
 
                     b.Navigation("Item");
 
                     b.Navigation("Order");
+
+                    b.Navigation("ShippingProvider");
                 });
 
             modelBuilder.Entity("WarehouseManagementSystem.Order", b =>
@@ -244,6 +253,8 @@ namespace WarehouseManagementSystem.Migrations
 
             modelBuilder.Entity("WarehouseManagementSystem.ShippingProvider", b =>
                 {
+                    b.Navigation("LineItems");
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

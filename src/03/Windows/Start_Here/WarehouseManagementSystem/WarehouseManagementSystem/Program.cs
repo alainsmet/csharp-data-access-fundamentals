@@ -4,41 +4,37 @@ using WarehouseManagementSystem;
 Customer filip = new()
 {
     Id = Guid.NewGuid(),
-    Name = "Filip Ekberg",
-    Address = "Kungsbacka",
-    PostalCode = "434 94",
-    Country = "Sweden",
-    PhoneNumber = "+46 111 111 111"
+    Name = "Alain Smet",
+    Address = "Main street",
+    PostalCode = "12345",
+    Country = "France",
+    PhoneNumber = "+40 0908070605"
 };
 
-ShippingProvider shippingProvider = new()
+ShippingProvider shippingProvider = new ShippingProvider() 
 {
     Id = Guid.NewGuid(),
-    Name = "Swedish Postal Service",
+    Name = "Great Postal Service of Anvers",
     FreightCost = 100m
 };
 
-Item item = new()
+Item item = new Item()
 {
     Id = Guid.NewGuid(),
-    Name = "Shure SM7b",
-    Description = "Microphone",
-    InStock = 5,
-    Price = 999,
-    Warehouses = new WarehouseManagementSystem.Warehouse[] 
-    { 
-        new () { Id = Guid.NewGuid(), Location = "Sweden" }
-    }
+    Name = "Sponge with square pants",
+    Description = "As the name implies, a sponge with square pants",
+    InStock = 10,
+    Price = 120
 };
 
-Order order = new()
+Order order = new Order()
 {
     Id = Guid.NewGuid(),
     Customer = filip,
     ShippingProvider = shippingProvider,
     LineItems = new LineItem[]
     {
-        new()
+        new LineItem()
         {
             Id = Guid.NewGuid(),
             Item = item,
@@ -46,27 +42,22 @@ Order order = new()
         }
     }
 };
-order.LineItems.Add(new());
+
 using var context = new WarehouseContext();
 context.Database.Migrate();
 
 context.Orders.Add(order);
 context.SaveChanges();
 
-//using Microsoft.EntityFrameworkCore;
-//using Warehouse.Data.SQLite;
-//using WarehouseManagementSystem;
-//using Order = Warehouse.Data.SQLite.Order;
-//using LineItem = Warehouse.Data.SQLite.LineItem;
-//using Customer = Warehouse.Data.SQLite.Customer;
-//using Item = Warehouse.Data.SQLite.Item;
-//using ShippingProvider = Warehouse.Data.SQLite.ShippingProvider;
-//using Warehouse = Warehouse.Data.SQLite.Warehouse;
 
-//using var context = new WarehouseSQLiteContext();
+
+
+// ============= Third example - Adding orders and items to orders =============
+//
+//using var context = new WarehouseContext();
 
 //var firstCustomer = context.Customers.First();
-//Order newOrder = new()
+//firstCustomer.Orders.Add(new()
 //{
 //    Id = Guid.NewGuid(),
 //    LineItems = new LineItem[]
@@ -75,34 +66,26 @@ context.SaveChanges();
 //        {
 //            Id = Guid.NewGuid(),
 //            Item = context.Items.First(),
-//            Quantity = 1
+//            Quantity = 1,
 //        }
 //    },
 //    ShippingProvider = context.ShippingProviders.First(),
-//    Customer = firstCustomer
-//};
+//});
 
-//context.Orders.Add(newOrder);
+//context.Customers.Update(firstCustomer);
 //context.SaveChanges();
-//Console.WriteLine("Order added!");
+//Console.WriteLine("Customer updated !");
 
+// ============= Second example - Adding, updating and deleting data =============
+//
+//var toDelete = context.Customers
+//    .First(customer => customer.Orders.Any());
 
+//context.Customers.Remove(toDelete);
 
+//context.SaveChanges();
 
-
-
-
-
-
-
-//Console.ReadLine();
-
-
-
-
-
-//Console.Write("Enter customer name: ");
-
+//Console.Write("Enter customer name : ");
 //var newCustomer = new Customer
 //{
 //    Name = Console.ReadLine(),
@@ -113,29 +96,23 @@ context.SaveChanges();
 //};
 
 //context.Customers.Add(newCustomer);
-
 //context.SaveChanges();
 
 //var toUpdate = context.Customers
-//    .First(customer => customer.Name == "Filip Ekberg (1)");
+//    .First(customer => customer.Name == "Betty Boop");
 
-//toUpdate.Name = "Sofie Ekberg";
-
+//toUpdate.Name = "Markus Herdberger";
 //context.Customers.Update(toUpdate);
-
 //context.SaveChanges();
 
 //Console.ReadLine();
 
-
-
-
-
-
+// ============= First example - Accessing data =============
+//
 //var customer = context.Customers
 //    .FirstOrDefault(customer => customer.Name == "Filip Ekberg");
 
-//foreach(var order in 
+//foreach (var order in
 //    context.Orders
 //    .Where(order => order.CustomerId == customer.Id)
 //    .Include(order => order.Customer)
@@ -143,9 +120,9 @@ context.SaveChanges();
 //    .Include(order => order.LineItems)
 //    .ThenInclude(lineItem => lineItem.Item))
 //{
-//    Console.WriteLine($"Order Id: {order.Id}");
-//    Console.WriteLine($"Customer: {order.Customer.Name}");
-//    Console.WriteLine($"Shipping Provider: {order.ShippingProvider.Name}");
+//    Console.WriteLine($"Order Id : {order.Id}");
+//    Console.WriteLine($"Customer : {order.Customer.Name}");
+//    Console.WriteLine($"Shipping provider : {order.ShippingProvider.Name}");
 //    foreach (var lineItem in order.LineItems)
 //    {
 //        Console.WriteLine($"\t{lineItem.Item.Name}");

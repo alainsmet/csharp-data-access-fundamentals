@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace WarehouseManagementSystem
 {
-    public class WarehouseContext
-        : DbContext
+    public class WarehouseContext: DbContext
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
@@ -17,11 +16,8 @@ namespace WarehouseManagementSystem
         public DbSet<Order> Orders { get; set; }
         public DbSet<ShippingProvider> ShippingProviders { get; set; }
 
-        protected override void 
-            OnConfiguring(DbContextOptionsBuilder 
-            optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // MOVE TO A SECURE PLACE!!!!
             var connectionString =
                 "Data Source=(LocalDB)\\MSSQLLocalDB;" +
                 "Initial Catalog=WarehouseManagement;" +
@@ -29,5 +25,6 @@ namespace WarehouseManagementSystem
 
             optionsBuilder.UseSqlServer(connectionString);
         }
+
     }
 }

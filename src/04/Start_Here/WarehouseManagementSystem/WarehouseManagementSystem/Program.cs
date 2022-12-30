@@ -32,7 +32,7 @@ while (reader.Read())
 
 reader.Close();
 
-Console.Write("Press ENTER to continue ...");
+Console.WriteLine("Press ENTER to continue ...");
 Console.ReadLine();
 
 using SqlCommand command2 = new SqlCommand(
@@ -70,4 +70,6 @@ command2.Parameters.Add(phoneNumberParameter);
 var rowsAffected = command2.ExecuteNonQuery();
 
 Console.WriteLine($"Rows affected : {rowsAffected}");
+Console.WriteLine();
+Console.WriteLine("Press ENTER to continue ...");
 Console.ReadLine();

@@ -1,7 +1,21 @@
+using WarehouseManagementSystem;
+using WarehouseManagementSystem.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+// Set up dependency injection
+
+builder.Services.AddTransient<WarehouseContext>();
+builder.Services.AddTransient<IRepository<Order>, OrderRepository>();
+builder.Services.AddTransient<IRepository<Item>, ItemRepository>();
+builder.Services.AddTransient<IRepository<Customer>, CustomerRepository>();
+builder.Services.AddTransient<IRepository<Warehouse>, WarehouseRepository>();
+builder.Services.AddTransient<IRepository<ShippingProvider>, ShippingProviderRepository>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
